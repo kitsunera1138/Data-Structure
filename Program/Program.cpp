@@ -38,21 +38,107 @@ public:
 		size++;
 	}
 
-	void Show() {
-		Node* currenNode = head; //노드 포인터 //= head로 시작주소를 바로 가리킴
+	void PushBack(T data) {
 
-		while(currentNode !=nullptr) {
-			cout << currenNode->data << endl;
+		if (head == nullptr) { //데이터가 하나라도 없는경우
+			head = new Node;
 
-			currenNode= currenNode.next;
+			head->data = data;
+			head->next = nullptr;
+		}
+		else {
+			Node* currentNode = head; //노드 포인터 //= head로 시작주소를 바로 가리킴
+
+			while (currentNode->next != nullptr) {
+				currentNode = currentNode->next;
+			}
+			//currentNode next가 nullptr이라면 //마지막까지 왔다면
+
+			Node* newNode = new Node;
+			currentNode->next = newNode;
+
+			newNode->data = data;
+			newNode->next = nullptr; //
+		}
+		size++;
+	}
+
+	void PopFront() {
+		if (head == nullptr) {
+			cout << "Linked List is empty" << endl;
+		}
+		else {
+			Node* deleteNode = head; //포인터 변수 헤드 가리킴
+			head = deleteNode->next; //다음 노드 가리킴
+			delete deleteNode;
+
+			size--;
 		}
 
 	}
 
+	void PopBack() {
+
+		if (head == nullptr) {
+			cout << "Linked List is empty" << endl;
+		}
+		else {
+			Node* deleteNode = head;
+			Node* previousNode = nullptr;
+
+			if (size == 1) { //노드가 하나일 경우
+				head = deleteNode->next;
+
+				delete deleteNode;
+			}
+			else { //둘 이상일 경우
+				while (deleteNode->next != nullptr) {
+
+					previousNode = deleteNode; //previousNode에 deleteNode의 주소를 넣는다
+					deleteNode = deleteNode->next;
+				}
+				previousNode->next = deleteNode->next;
+				delete deleteNode;
+			}
+
+			size--;
+		}
+	}
+
+	void Show() {
+		Node* currentNode = head; //노드 포인터 //= head로 시작주소를 바로 가리킴
+
+		while (currentNode != nullptr) {
+			cout << currentNode->data << endl;
+			currentNode = currentNode->next;
+		}
+	}
+
+	~SingleLinkedList() {//노드를 동적할당으로 만들었기 때문에 소멸자에서 삭제
+
+		//while (head != nullptr) {
+		//	Node* deleteNode = head; //포인터 변수 헤드 가리킴
+		//	head = deleteNode->next; //다음 노드 가리킴
+		//	delete deleteNode;
+
+		//	cout << "delete" << endl;
+		//}
+	}
 };
 
 int main()
 {
-	SingleLinkedList<int> a;
+	SingleLinkedList<int> singleLinkedList;
+	singleLinkedList.PushFront(30); //앞부터 데이터 삽입
+	singleLinkedList.PushFront(20); 
+	singleLinkedList.PushFront(10);
 
+	singleLinkedList.PopFront(); //20 30
+
+	singleLinkedList.PushBack(10); //20 30 10
+	singleLinkedList.PushBack(50);
+
+	singleLinkedList.PopBack();
+
+	singleLinkedList.Show();
 }
