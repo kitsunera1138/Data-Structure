@@ -1,108 +1,123 @@
 ﻿#include <iostream>
 using namespace std;
-
 template <typename T>
 
-class SingleLinkedList { //단일 연결 리스트
+
+class DoublyLinkedList { //DoublyLinkedList 양방향 리스트
 private:
 	int size;
 
-	struct Node {
+	struct Node
+	{
 		T data;
 		Node* next;
-
+		Node* previous;
 	};
+
 	Node* head;
+	Node* tail;
+
 public:
-	SingleLinkedList() {
+	DoublyLinkedList() {
 		size = 0;
 		head = nullptr;
+		tail = nullptr;
+	}
+
+	void PushBack(T data) {
+		Node* newNode = new Node; //동적할당
+
+		newNode->data = data;
+		newNode->next = nullptr;
+		newNode->previous = nullptr;
+
+		if (tail == nullptr) {
+			tail = newNode;
+			head = tail;
+		}
+		else {
+
+			tail->next = newNode;
+			newNode->previous = tail;
+
+			tail = newNode;
+		}
+		size++;
 	}
 
 	void PushFront(T data) {
+		
+		Node* newNode = new Node; //동적할당
+
+		newNode->data = data;
+		newNode->next = nullptr;
+		newNode->previous = nullptr;
+
 		if (head == nullptr) {
-			head = new Node; //new 노드의 시작 주소를 가리킴
-
-			head->data = data;
-			head->next = nullptr;
+			head = newNode;
+			tail = newNode;
 		}
-		else { //node가 하나라도 있을 경우
-			//지역변수로 하면 소멸되어서 동적할당으로 해줘야 한다
-			Node* newNode = new Node; //동적할당
-
-			newNode->data = data;
+		else {
+			head->previous = newNode;
 			newNode->next = head;
-
 			head = newNode;
 		}
 		size++;
 	}
 
-	void PushBack(T data) {
-
-		if (head == nullptr) { //데이터가 하나라도 없는경우
-			head = new Node;
-
-			head->data = data;
-			head->next = nullptr;
-		}
-		else {
-			Node* currentNode = head; //노드 포인터 //= head로 시작주소를 바로 가리킴
-
-			while (currentNode->next != nullptr) {
-				currentNode = currentNode->next;
-			}
-			//currentNode next가 nullptr이라면 //마지막까지 왔다면
-
-			Node* newNode = new Node;
-			currentNode->next = newNode;
-
-			newNode->data = data;
-			newNode->next = nullptr; //
-		}
-		size++;
-	}
-
-	void PopFront() {
-		if (head == nullptr) {
-			cout << "Linked List is empty" << endl;
-		}
-		else {
-			Node* deleteNode = head; //포인터 변수 헤드 가리킴
-			head = deleteNode->next; //다음 노드 가리킴
-			delete deleteNode;
-
-			size--;
-		}
-
-	}
 
 	void PopBack() {
 
-		if (head == nullptr) {
+		if (tail == nullptr) { //노드가 하나도 없는 경우
 			cout << "Linked List is empty" << endl;
 		}
 		else {
-			Node* deleteNode = head;
-			Node* previousNode = nullptr;
+			Node* deleteNode = tail; //포인터 변수가 tail를 가리킴
 
-			if (size == 1) { //노드가 하나일 경우
-				head = deleteNode->next;
+			if (head == tail) { //노드가 하나인 경우
+				head = nullptr;
+				tail = nullptr;
 
 				delete deleteNode;
 			}
-			else { //둘 이상일 경우
-				while (deleteNode->next != nullptr) {
+			else {//노드가 둘 이상일 경우
+				tail->previous->next = nullptr;
+				tail = tail->previous;
 
-					previousNode = deleteNode; //previousNode에 deleteNode의 주소를 넣는다
-					deleteNode = deleteNode->next;
-				}
-				previousNode->next = deleteNode->next;
 				delete deleteNode;
 			}
-
 			size--;
 		}
+
+		//ㅁㅁㅁ
+		//if (head != nullptr) {
+
+		//	if (head == tail) { //노드가 하나인 경우
+		//		Node* deleteNode = head; //포인터 변수 헤드 가리킴
+		//		delete deleteNode;
+
+		//		head = nullptr;
+		//		tail = nullptr;
+		//	}
+		//	else { //노드가 둘 이상일 경우
+		//		Node* deleteNode = tail; //포인터 변수가 tail를 가리킴
+
+		//		tail = deleteNode->previous;
+		//		//tail = tail->previous;
+		//		tail->next = nullptr;
+		//		delete deleteNode;
+		//	}
+
+
+		//}
+		//else { //노드가 하나도 없는 경우
+		//	cout << "Linked List is empty" << endl;
+		//}
+
+	}
+
+	int& Size() {//복사 비용 방지
+		return size;
 	}
 
 	void Show() {
@@ -113,32 +128,26 @@ public:
 			currentNode = currentNode->next;
 		}
 	}
-
-	~SingleLinkedList() {//노드를 동적할당으로 만들었기 때문에 소멸자에서 삭제
-
-		//while (head != nullptr) {
-		//	Node* deleteNode = head; //포인터 변수 헤드 가리킴
-		//	head = deleteNode->next; //다음 노드 가리킴
-		//	delete deleteNode;
-
-		//	cout << "delete" << endl;
-		//}
-	}
 };
+
 
 int main()
 {
-	SingleLinkedList<int> singleLinkedList;
-	singleLinkedList.PushFront(30); //앞부터 데이터 삽입
-	singleLinkedList.PushFront(20); 
-	singleLinkedList.PushFront(10);
+	DoublyLinkedList<int> DoublyLinkedList;
+	DoublyLinkedList.PushBack(10);
+	DoublyLinkedList.PushBack(20);
+	DoublyLinkedList.PushBack(30);
 
-	singleLinkedList.PopFront(); //20 30
+	DoublyLinkedList.PopBack();
 
-	singleLinkedList.PushBack(10); //20 30 10
-	singleLinkedList.PushBack(50);
+	DoublyLinkedList.PushFront(50);
+	DoublyLinkedList.PushFront(60);
 
-	singleLinkedList.PopBack();
+	DoublyLinkedList.Show();
 
-	singleLinkedList.Show();
+	cout << "DoublyLinkedList의 Size: "<< DoublyLinkedList.Size() << endl;
+
+
+	return 0;
 }
+
