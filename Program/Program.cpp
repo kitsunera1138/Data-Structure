@@ -1,148 +1,100 @@
 ﻿#include <iostream>
 using namespace std;
 
+#define SIZE 10
+
 template <typename T>
-
-class CircleLinkedList { //원형 연결 리스트 //CircularLinkedList
+class Stack {
 private:
-	int size;
-
-	struct Node {
-		T data;
-		Node* next;
-	};
-
-	Node* head;
+	int top;
+	T container[SIZE];
 
 public:
+	Stack() {
+		top = -1;
 
-	CircleLinkedList() {
-		size = 0;
-		head = nullptr;
+		//container = {0, }//X //container를 저렇게 초기화 하면 오류뜸//저 방법은 선언할때만 사용가능
+		for (int i = 0; i < SIZE; i++) {
+			container[i] = 0;
+		}
 	}
 
-	void PushBack(T data) {
-		Node* newNode = new Node; //동적할당
-		newNode->data = data;
-
-		if (head == nullptr) { //노드가 하나도 없을 경우
-
-			head = newNode;
-
-			head->next = newNode;
+	void Push(T data) {
+		if (top >= SIZE -1) {
+			cout << "Stack OverFlow" << endl;
 		}
 		else {
-			newNode->next = head->next;
-			head->next = newNode;
-
-			head = newNode;
+			container[++top] = data;
 		}
-
-		size++;
 	}
 
-	void PushFront(T data) {
-		Node* newNode = new Node; //동적할당
-		newNode->data = data;
-
-		if (head == nullptr) { //노드가 하나도 없을 경우
-			head = newNode;
-			head->next = newNode;
-		}
-		else { //노드가 하나이상 있음
-			newNode->next = head->next;
-			head->next = newNode;
-		}
-
-		size++;
-
-	}
-
-	void PopFront() {
-
-		if (head == nullptr) {
-			cout << "Linked List is Empty" << endl;
+	void Pop() {
+		if (Empty()) {
+			cout << "Stack is Empty" << endl;
 		}
 		else {
-			Node* deleteNode = head->next;
-
-			if (head == head->next) {
-				head = nullptr;
-			}
-			else {
-				head->next = deleteNode->next;
-			}
-			delete deleteNode;
-
-			size--;
+			top--;
 		}
-
-	}
-	void PopBack() {
-
-		if (head == nullptr) {
-			cout << "Linked List is Empty" << endl;
-		}
-		else {
-
-		Node* deleteNode = head;
-		Node* currentNode = head;
-
-		if (head == head->next) {
-			head = nullptr;
-		}
-		else {
-				//while (currentNode->next != head) {
-				//	currentNode = currentNode->next;
-				//}
-			for (int i = 0;i < size - 1;i++) {
-				currentNode = currentNode->next;
-			}
-			currentNode->next = head-> next;
-			head = currentNode;
-
-			delete deleteNode;
-		}
-
-
-		size--;
-		}
-
 	}
 
+	bool Empty() {
+		if (top <= -1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
+	int& Size() {
+		return top;
+	}
+
+	T& Top() {
+		return container[top];
+	}
+	
 	void Show() {
-		if (head != nullptr) {
-			Node* currentNode = head->next; //노드 포인터 //= head로 시작주소를 바로 가리킴
+		//for (int i = 0; i < SIZE; i++) {
+		//	cout << "Stack[" << i << "] : " << container[i] << endl;
+		//}
 
-			for (int i = 0;i < size;i++) {
-				cout << currentNode->data << endl;
-				currentNode = currentNode->next;
-			}
+		for (int i = top;i >= 0;i--) {
+			cout << container[i] << " ";
 		}
 	}
+
 };
 
-
+bool CheckBracket(string content) { //괄호검사
+	if (content.length() <= 0){
+		return false;
+	}
+}
 
 int main()
 {
-	CircleLinkedList<int> CircularLinkedList;
+	/*
+	Stack<int> stack;
+	stack.Push(10);
+	stack.Push(20);
+	stack.Push(30);
+	stack.Push(40);
+	stack.Push(50);
 
-	CircularLinkedList.PushBack(10);
-	CircularLinkedList.PushBack(20);
-	CircularLinkedList.PushBack(30);
+	stack.Pop();
 
-	CircularLinkedList.PushFront(40);
-	CircularLinkedList.PopFront(); //10 20 30
+	//stack.Show();
 
-	CircularLinkedList.PopBack();
+	//데이터 출력
+	while (stack.Empty() == false) {//비어있지않을 경우
+		cout << stack.Top() << endl;
+		stack.Pop();
+	}
+	*/
 
-	CircularLinkedList.Show();
-
-
-
-
+	//Stack<char> stack;
+	//stack.CheckBracket("asd");
 
 	return 0;
 }
