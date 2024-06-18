@@ -1,2 +1,2 @@
 ﻿  Program.cpp
-C:\Users\Administrator\Desktop\Data-Structure\Program\Program.cpp(69): error C4716: 'Stack<char>::CheckBracket': 값을 반환해야 합니다.
+  Program.vcxproj -> C:\Users\Administrator\Desktop\Data-Structure\Program\x64\Debug\Program.exe
