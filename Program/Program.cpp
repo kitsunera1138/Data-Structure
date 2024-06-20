@@ -1,87 +1,92 @@
 ﻿#include <iostream>
-
 using namespace std;
 
-template <typename T>
-class Vector {
-private:
-	int size;
-	int capacity;
+#pragma warnings(disable : 4996) //strlen 사용
+//#define _CRT_SECURE_NO_WARNINGS //strlen사용 
 
-	T* container; //크기가 변함
+class String {
+private:
+	char* container;
+	int size;
+
 public:
-	Vector() {
+	String() {
 		size = 0;
-		capacity = 0;
 		container = nullptr;
 	}
 
-	void Resize(int newSize) {
-		//1.capacity에 새로운 size 값을 저장합니다.
-		capacity = newSize;
+	void operator = (const char* content) {
+		int arraySize = strlen(content) + 1;
+		size = strlen(content);
 
-		//2.새로운 포인터 변수를 생성해서  새롭게 
-		// 만들어진 메모리 공간을 가리키도록 합니다.
-		T* newcontainer = new T[capacity]; //T* potiner = new T[capacity];
+		if (container == nullptr) {
+			container = new char[arraySize];
 
-		//3. 새로운 메모리 공간의 값을 초기호 합니다.
-		for (int i = 0;i < capacity;i++) {
-			newcontainer[i] = NULL;
+			for (int i = 0; i < arraySize; i++) {
+				container[i] = content[i];//읽기라 문제 X
+			}
 		}
+		else { //새로것이 들어왔을 때
+			char* newContainer = new char[arraySize];//메모리 확보
 
-		//4.기존 배열에 있는 값을 복사해서 새로운 배열에 넣어 줍니다.
-		for (int i = 0;i < size;i++) {
-			newcontainer[i] = container[i];
+			for (int i = 0; i < arraySize; i++) {
+				newContainer[i] = content[i];
+			}
+			delete container;
+			container = newContainer;//container을 newContainer에 참조
 		}
-
-		//5. 기존 배열의 메모리 해제합니다.
-		//주의할 점 사이즈가 아예없을 때 배열이 할당안되었을때 할당 해제하면 안됨 - 조건
-		if (container != nullptr) {
-			delete[] container;
-		}
-
-		//6. 기존에 배열을 가리키던 포인터 변수의 값을 새로운 배열의 시작 주소로 가리킵니다.
-		container = newcontainer;
 	}
 
-	void PushBack(T data) {
-		if (capacity <= 0) {
-			Resize(1);
+	int Compare(const char* content) {
+		int arraySize = strlen(content);
+
+		if (strlen(container) == arraySize) {
+			
+			for (int i = 0; i < arraySize + 1;i++) {
+				if (container[i] != content[i]) {
+					return -1;
+				}
+			}
+			return 1;
 		}
-		else if (size >= capacity) {
-			Resize(capacity * 2);
+		else {
+			cout << "string length X";
+			return -1;
 		}
-		//크기 할당 후 데이터 삽입
-		container[size++] = data;
+
 	}
 
-	T& operator[] (const int& index) {//값 변경 X도록 const
+	char &operator[] (int index){
 		return container[index];
 	}
 
 	int& Size() {
+
 		return size;
 	}
-
-	~Vector() {
-		if (container != nullptr) {
-			delete[] container;
-		}
-	}
-
 };
+
 
 int main()
 {
-	Vector<int> vector;
-	vector.PushBack(10);
-	vector.PushBack(20);
-	vector.PushBack(30);
+	
+	String string;
 
-	for (int i = 0; i < vector.Size();i++) {
-		cout << vector[i] << endl;
+	string = "Janna";
+	//cout << "string의 크기 : " << string.Size() << endl;
+
+	string = "Alistar";
+	//for (int i=0;i < string.Size();i++) {
+	//	cout << string[i]; //char &operator[] (int index)
+	//}
+	//string.Compare("Alistar");
+
+	if (string.Compare("Alistar") == 1) {
+		cout << "same";
 	}
-
+	else {
+		cout << "X";
+	}
 	return 0;
 }
 
