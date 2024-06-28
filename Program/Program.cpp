@@ -1,124 +1,20 @@
 ﻿#include <iostream>
 using namespace std;
 
-#define SIZE 8
-
-template <typename T>
-class Heap {
-private:
-	int index;
-	T container[SIZE]; //정적배열
-
-public:
-	Heap() {
-		index = 0;
-
-		for (int i = 0; i < SIZE;i++) {
-			container[i] = NULL;
-		}
-	}
-
-	void Insert(T data) {
-		if (index >= SIZE) {
-			cout << "Heap Overflow" << endl;
-		}
-		else {
-			container[++index] = data; //전위 증가 //1부터 데이터 삽입
-
-			int child = index;
-			int parent = child / 2;
-
-			while (child > 1) { //자식이 있을 경우 (1은 자식X)
-
-				if (container[parent] < container[child]) {
-					std::swap(container[parent], container[child]);
-				}
-
-				child = parent; //갱신 
-				parent = child / 2;
-			}
-		}
-
-	}
-
-	void Order() { //정렬
-
-		int child = index;
-		int parent = child / 2;
-
-		while (child > 1) { //자식이 있을 경우 (1은 자식X)
-
-			if (container[parent] < container[child]) {
-				Swap(&container[parent], &container[child]);
-				//std::swap(container[parent], container[child]);
-			}
-
-			child = parent; //갱신 
-			parent = child / 2;
-		}
-	}
-
-	T Remove() {
-
-		if (index <= 0) {//없을 때
-			cout << "Heap is Empty" << endl;
-			exit(1); //강제 종료
-		}
-
-		T result = container[1];
-
-		container[1] = container[index];
-		container[index] = NULL;
-		//Order();
-		index--;
-
-		int parent = 1;
-		int leftchild = parent * 2;
-		int rightchild = parent * 2 +1;
-
-		if (container[leftchild] < container[rightchild]) {
-			
-			std::swap(container[parent], container[rightchild]);
-		}
-		else {
-			std::swap(container[parent], container[leftchild]);
-		}
-
-	}
-
-	void Swap(int* A, int* B) {
-		int temp = *A;
-		*A = *B;
-		*B = temp;
-	}
-
-	void Show() {
-		for (int i = 1; i <= index; i++) {
-			cout << container[i] << " ";
-		}
-		//for (int i = 0; i < SIZE; i++) {
-		//	cout << container[i] << " ";
-		//}
-	}
-
-};
-
 int main()
 {
-	Heap<int> heap;
-	heap.Insert(6);
-	heap.Insert(7);
-	heap.Insert(2);
-	heap.Insert(10);
+#pragma region 인접리스트
+	//그래프의 각 정점에 인접한 정점들을 연결 리스트로 표현하는 방법입니다.
 
-	heap.Insert(30);
-	heap.Insert(40);
-	heap.Insert(50);
+	//장점
+	// 그래프의 모든 간선의 수를 O(V + E)로 표현할 수 있습니다.
+
+	// 단점
+	// 두 정점을 연결하는 간선을 조회하거나 정점의 차수를 알기 위해서
+	// 정점의 인접 리스트를 모두 탐색해야 하므로, 정점의 차수 만큼의 시간이 필요합니다.
 
 
-	heap.Remove();
-	heap.Show();
+#pragma endregion
 
 	return 0;
 }
-
