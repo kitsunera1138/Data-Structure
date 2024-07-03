@@ -156,7 +156,166 @@ public:
 
 	}
 
-	void Destroy(Node* root) {
+	void Remove(T data) {
+		if (root == nullptr) {
+			cout << "Binary Search Tree is Empty" << endl;
+		}
+		else {
+			Node* currentNode = root;
+			Node* parentNode = root;
+
+
+			while (currentNode != nullptr && currentNode->data != data) {//And // while (currentNode->data != data && currentNode != nullptr)를 쓰면 쇼트서킷	일어남
+
+				if (currentNode->data > data) {
+					parentNode = currentNode;
+					currentNode = currentNode->left;
+				}
+				else {
+					parentNode = currentNode;
+					currentNode = currentNode->right;
+				}
+			}
+
+			if (currentNode == nullptr) { //데이터가 없는 경우
+				cout << "Data Not found in the Binary Search Tree" << endl;
+			}
+			else if (currentNode->left == nullptr && currentNode->right == nullptr) {
+
+				if (parentNode != nullptr) {
+					if (parentNode->left == currentNode) {
+						parentNode->left = nullptr;
+					}
+					else {
+						parentNode->right = nullptr;
+					}
+				}
+				else {
+					root = nullptr;
+				}
+			}
+			else if (currentNode->left == nullptr || currentNode->right == nullptr) {
+				//둘 중 하나가 값 존재 //자식 노드가 1개 있는 노드를 삭제하는 경우 // 참고로 둘 다 비어있는 경우는 위에서 걸러짐
+				Node* childNode = root;
+
+				if (currentNode->left != nullptr) {
+					childNode = currentNode->left;
+				}
+				else {
+					childNode = currentNode->right;
+				}
+
+				if (parentNode != nullptr) {
+					if (parentNode->left == currentNode) {
+						parentNode->left = childNode;
+					}
+					else {
+						parentNode->right = childNode;
+					}
+				}
+			}
+			else {
+				//자식이 두명 있을 경우
+				Node* childNode = currentNode->right;
+				Node* traceNode = childNode;
+
+				while (childNode->left != nullptr) {
+					traceNode = childNode;
+					childNode = childNode->left;
+				}
+
+
+				currentNode->data = childNode->data;
+
+				traceNode->left = childNode->right;
+
+				delete childNode;
+
+				return;
+			}
+			//ㅁㅁ 자식 하나
+			//else if(currentNode->left !=nullptr ){
+			//	Node* childNode = root;
+
+			//	childNode = currentNode->left;
+			//	parentNode->left = childNode;
+			//}
+			//else if (currentNode->right != nullptr) {
+			//	Node* childNode = root;
+
+			//	childNode = currentNode->right;
+			//	parentNode->right = childNode;
+			//}
+
+
+
+
+			delete currentNode;
+		}
+
+
+	}
+
+	//ㅁㅁ
+	void Remove2(T data) { //값을 넣어 그 값을 찾으면 삭제
+
+		if (root != nullptr && root->data == data) {
+			root = nullptr;
+			return;
+		}
+
+		Node* currentNode = root;
+
+		while (currentNode != nullptr) {
+
+			if (currentNode->data != data) {
+				if (currentNode->data > data) {
+
+					if (currentNode->left==nullptr) {
+						cout << "Data Not Find" << endl;
+						break;
+					}
+
+					if (currentNode->left-> data == data) {
+						delete currentNode->left;
+						currentNode->left = nullptr;
+
+						break;
+					}
+					else {
+						currentNode = currentNode->left;
+					}
+				}
+				else {
+					if (currentNode->right == nullptr) {
+						cout << "Data Not Find" << endl;
+						break;
+					}
+
+					if (currentNode->right->data == data) {
+						delete currentNode->right;
+						currentNode->right = nullptr;
+
+						break;
+					}
+					else {
+						currentNode = currentNode->right;
+					}
+				}
+			}
+			else {
+				return;
+			}
+		}
+
+		if (currentNode == nullptr) {
+			cout << "BinarySearchTree Empty";
+		}
+
+	}
+
+
+	void Destroy(Node* root) { //동적할당된 노드를 삭제 //소멸자에서 쓰이는 함수
 
 		if (root != nullptr) {
 			Destroy(root->left);
@@ -165,7 +324,6 @@ public:
 		}
 
 	}
-
 	~BinarySearchTree() { //소멸자에서 delete
 		Destroy(root);
 	}
@@ -178,6 +336,13 @@ int main()
 	binarySearchTree.Insert(7);
 	binarySearchTree.Insert(15);
 	binarySearchTree.Insert(5);
+	binarySearchTree.Insert(3);
+	binarySearchTree.Insert(9);
+	binarySearchTree.Insert(8);
+
+	binarySearchTree.Remove(5);
+	binarySearchTree.Remove(7);
+	//binarySearchTree.Remove(1);
 
 	binarySearchTree.Inorder(binarySearchTree.Root());
 
