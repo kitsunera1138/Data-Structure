@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Class12th (Graph Adjacency 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Class13th (Graph Adjacency List)", "..\Class13th (Graph Adjacency List)\Class13th (Graph Adjacency List).vcxproj", "{5C7B1412-B235-4586-A6ED-799C58EA8C95}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Class14th (Binary Search Tree)", "..\Class14th (Binary Search Tree)\Class14th (Binary Search Tree).vcxproj", "{698C3B1F-5C8E-4BB2-99BC-39473F392AA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -151,6 +153,14 @@ Global
 		{5C7B1412-B235-4586-A6ED-799C58EA8C95}.Release|x64.Build.0 = Release|x64
 		{5C7B1412-B235-4586-A6ED-799C58EA8C95}.Release|x86.ActiveCfg = Release|Win32
 		{5C7B1412-B235-4586-A6ED-799C58EA8C95}.Release|x86.Build.0 = Release|Win32
+		{698C3B1F-5C8E-4BB2-99BC-39473F392AA2}.Debug|x64.ActiveCfg = Debug|x64
+		{698C3B1F-5C8E-4BB2-99BC-39473F392AA2}.Debug|x64.Build.0 = Debug|x64
+		{698C3B1F-5C8E-4BB2-99BC-39473F392AA2}.Debug|x86.ActiveCfg = Debug|Win32
+		{698C3B1F-5C8E-4BB2-99BC-39473F392AA2}.Debug|x86.Build.0 = Debug|Win32
+		{698C3B1F-5C8E-4BB2-99BC-39473F392AA2}.Release|x64.ActiveCfg = Release|x64
+		{698C3B1F-5C8E-4BB2-99BC-39473F392AA2}.Release|x64.Build.0 = Release|x64
+		{698C3B1F-5C8E-4BB2-99BC-39473F392AA2}.Release|x86.ActiveCfg = Release|Win32
+		{698C3B1F-5C8E-4BB2-99BC-39473F392AA2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
